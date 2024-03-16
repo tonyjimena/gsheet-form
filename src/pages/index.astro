@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import { DataTableDemo } from "@/components/DataTableDemo";
 import { ProfileForm } from "@/components/ProfileForm";
 import Layout from "../layouts/Layout.astro";
@@ -14,7 +16,6 @@ async function getData() {
   const data = await res.json();
   return data.reverse();
 }
-
 
 const data = await getData();
 ---
