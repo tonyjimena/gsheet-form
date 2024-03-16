@@ -15,21 +15,6 @@ async function getData() {
   return data.reverse();
 }
 
-async function postData(formData: any) {
-  const res = await fetch(
-    "https://script.google.com/macros/s/AKfycbyioAU4dEbsgWH5SWPEN8e3OuF5ttT9ChWbSJdM8_XKqePMPuXg-9--GIL1PRKL60s7MQ/exec",
-    {
-      method: "POST",
-      redirect: "follow",
-
-      body: formData,
-    }
-  );
-  const response = await res.json();
-  if (response) {
-    getData();
-  }
-}
 
 const data = await getData();
 ---
