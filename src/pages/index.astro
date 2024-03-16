@@ -1,0 +1,64 @@
+---
+import { DataTableDemo } from "@/components/DataTableDemo";
+import { ProfileForm } from "@/components/ProfileForm";
+import Layout from "../layouts/Layout.astro";
+import "@/styles/globals.css";
+
+async function getData() {
+  const res = await fetch(
+    "https://script.google.com/macros/s/AKfycbyioAU4dEbsgWH5SWPEN8e3OuF5ttT9ChWbSJdM8_XKqePMPuXg-9--GIL1PRKL60s7MQ/exec",
+    {
+      redirect: "follow",
+    }
+  );
+  const data = await res.json();
+  return data.reverse();
+}
+
+async function postData(formData: any) {
+  const res = await fetch(
+    "https://script.google.com/macros/s/AKfycbyioAU4dEbsgWH5SWPEN8e3OuF5ttT9ChWbSJdM8_XKqePMPuXg-9--GIL1PRKL60s7MQ/exec",
+    {
+      method: "POST",
+      redirect: "follow",
+
+      body: formData,
+    }
+  );
+  const response = await res.json();
+  if (response) {
+    getData();
+  }
+}
+
+const data = await getData();
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <section>
+      <h1>Leads connection to G sheet</h1>
+      <ProfileForm client:load />
+    </section>
+    <section><DataTableDemo data={data} /></section>
+  </main>
+</Layout>
+
+<style>
+  h1 {
+    margin-bottom: 1rem;
+    font-size: 18px;
+  }
+  main {
+    margin: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  section {
+    flex: 1;
+  }
+</style>
