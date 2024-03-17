@@ -168,8 +168,20 @@ export const columns: ColumnDef<Lead>[] = [
   },
 ];
 
-export function DataTableDemo({ data }: any) {
+async function getData() {
+  const res = await fetch(
+    "https://script.google.com/macros/s/AKfycbyioAU4dEbsgWH5SWPEN8e3OuF5ttT9ChWbSJdM8_XKqePMPuXg-9--GIL1PRKL60s7MQ/exec",
+    {
+      redirect: "follow",
+    }
+  );
+  const data = await res.json();
+  return data.reverse();
+}
+
+export function DataTableDemo({ defaultData = [] }: any) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [data, setData] = React.useState(defaultData);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
@@ -195,6 +207,20 @@ export function DataTableDemo({ data }: any) {
       rowSelection,
     },
   });
+
+  React.useEffect(() => {
+    getData().then((data) => setData(data));
+
+    document.addEventListener("refreshData", (event) => {
+      getData().then((data) => setData(data));
+    });
+
+    return () => {
+      document.removeEventListener("refreshData", (event) => {
+        getData().then((data) => setData(data));
+      });
+    };
+  }, [data]);
 
   return (
     <div className="w-full">

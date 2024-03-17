@@ -37,6 +37,9 @@ export function ProfileForm() {
 
     postData(formData).finally(() => {
       setLoading(false);
+
+      const event = new CustomEvent("refreshData");
+      document.dispatchEvent(event);
     });
   }
 

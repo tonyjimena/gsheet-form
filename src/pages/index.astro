@@ -1,23 +1,8 @@
 ---
-export const prerender = true;
-
 import { DataTableDemo } from "@/components/DataTableDemo";
 import { ProfileForm } from "@/components/ProfileForm";
 import Layout from "../layouts/Layout.astro";
 import "@/styles/globals.css";
-
-async function getData() {
-  const res = await fetch(
-    "https://script.google.com/macros/s/AKfycbyioAU4dEbsgWH5SWPEN8e3OuF5ttT9ChWbSJdM8_XKqePMPuXg-9--GIL1PRKL60s7MQ/exec",
-    {
-      redirect: "follow",
-    }
-  );
-  const data = await res.json();
-  return data.reverse();
-}
-
-const data = await getData();
 ---
 
 <Layout title="Welcome to Astro.">
@@ -26,7 +11,7 @@ const data = await getData();
       <h1>Leads connection to G sheet</h1>
       <ProfileForm client:load />
     </section>
-    <section><DataTableDemo data={data} /></section>
+    <section><DataTableDemo client:load /></section>
   </main>
 </Layout>
 
